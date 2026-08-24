@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0.0",
+  "metadata": {
+    "student_name": "Hoàng Tuấn Hưng",
+    "student_id": "2A202601911",
+    "group_id": "G01",
+    "submitted_at": "2026-08-24T17:30:00+07:00"
+  },
+  "industry": "content-creator",
+  "product_context": {
+    "product_name": "Creator Voice Studio",
+    "product_stage": "pilot",
+    "problem_statement": "Independent creators lose most of their potential audience outside their own language because re-recording every video in another language costs studio time and a voice they do not have. Manual dubbing takes days per video and outsourced voice work breaks the recognisable personal voice that the channel was built on, so creators either skip localisation entirely or publish subtitle-only versions that perform far worse.",
+    "target_users": [
+      "Solo video creators who publish weekly and want localised versions of their own content",
+      "Small creator studios of two to five people producing short-form and long-form video",
+      "Podcast producers localising back catalogue episodes",
+      "Creator managers who handle publishing and sponsorship compliance on behalf of a channel"
+    ],
+    "value_hypothesis": "If a creator can produce a localised version of their own video in their own cloned voice within one hour instead of several days, they will localise a majority of new uploads. We will believe this when at least sixty per cent of pilot creators localise more than half of their new uploads within eight weeks and report no drop in audience trust in post-pilot surveys and comment sentiment.",
+    "in_scope": [
+      "Voice cloning of the creator's own voice from a liveness-checked enrolment recording",
+      "Script translation and timing adaptation for a fixed set of launch languages",
+      "Synthetic voice rendering of that script with the creator's cloned voice",
+      "Provenance marking and audience-facing AI disclosure attached at export",
+      "Human review queue for consent, rights claims and protected-voice matches"
+    ],
+    "non_goals": [
+      "Cloning any voice or likeness other than the enrolled creator's own",
+      "Full visual deepfake video generation of a person's face in this release",
+      "Generating factual claims, medical, legal or financial advice content",
+      "Testimonial and product-review copy generation",
+      "Automatic publishing to third-party platforms without a creator confirmation step",
+      "Any political, campaign or election-related content in the pilot"
+    ],
+    "user_journey_moment": "After the creator has finished editing the original-language video and asks for a localised version, at the step where a script is generated and rendered into synthetic speech before the creator reviews and exports the file.",
+    "target_launch_or_review_date": "2026-11-02",
+    "automation_level": "semi-automated",
+    "fallback_experience": "When cloning, translation or rendering is unavailable, refused or low-confidence, the studio does not degrade silently. The creator keeps a usable path: the translated script is delivered as a text and subtitle file for the original audio track, an optional stock narrator voice is offered as an explicitly labelled substitute, and the export is queued for a human Trust and Safety reviewer when a consent or protected-voice check cannot be completed. Every refusal states the reason and the appeal route rather than a generic error.",
+    "decision_reversibility": "partially-reversible"
+  },
+  "system_profile": {
+    "purpose": "Let a creator publish a localised version of their own video in a synthetic copy of their own voice, so that reach grows without losing the recognisable voice the channel is known for.",
+    "user_groups": [
+      "Creators enrolling and using their own voice model",
+      "Creator managers and editors operating the studio on a creator's behalf",
+      "Trust and Safety reviewers handling consent, rights claims and protected-voice escalations",
+      "Support agents handling impersonation reports from people outside the platform"
+    ],
+    "decision_impact": "The system decides what words are spoken in a real person's voice and published to a public audience, and whether that audience is told the audio is synthetic. Downstream it affects who is credited and paid for a voice performance, and whether an impersonated person can prove and stop a misuse of their voice.",
+    "data_types": [
+      "Creator voice enrolment recordings and liveness-check phrases",
+      "Derived voiceprint embeddings and trained voice models",
+      "Consent artifacts and signed rights grants",
+      "Video and audio source files plus generated scripts and renders",
+      "Generation and export audit logs including refusal and override events",
+      "Account, billing and support-case records"
+    ],
+    "deployment_context": "A cloud web application used by paying creators in an invited pilot cohort, with a hosted text-to-speech and voice-cloning vendor behind it. Exports leave the platform and are published on third-party video and podcast platforms that the studio does not control, so misuse cannot be recalled once distributed.",
+    "target_markets": [
+      "Viet Nam",
+      "European Union",
+      "United States"
+    ],
+    "system_boundary": {
+      "model": "Hosted third-party voice-cloning and text-to-speech model plus a large language model for script translation and timing adaptation, with an internal voice-similarity matcher used for the protected-voice register",
+      "application": "Web studio covering enrolment, script generation, review, render, provenance marking, disclosure and export, with a separate Trust and Safety review console",
+      "people": [
+        "Creator as the reviewer of every script and render before export",
+        "Trust and Safety on-call reviewer with authority to refuse, freeze or delete a voice model",
+        "Data Protection Officer owning retention and deletion design",
+        "Legal and Privacy Counsel independent of the product reporting line",
+        "Support agents receiving third-party impersonation reports"
+      ],
+      "vendors": [
+        "Voice cloning and text-to-speech provider",
+        "Large language model provider for translation",
+        "Cloud hosting and object storage provider",
+        "Identity and liveness verification provider"
+      ],
+      "upstream_inputs": [
+        "Creator enrolment recording and liveness-check result",
+        "Creator source video and audio",
+        "Creator-supplied or generated script",
+        "Protected-voice register entries and rights-holder claims",
+        "Vendor model versions and safety filter updates"
+      ],
+      "downstream_decisions": [
+        "Whether a voice model is created and kept available for generation",
+        "Whether a specific render is allowed to be exported",
+        "Whether the audience is told the audio is synthetic",
+        "What a viewer believes a named person said and does about it",
+        "Whether a platform demonetises or removes the published content",
+        "Whether an impersonation claim is upheld and the model deleted"
+      ]
+    }
+  },
+  "industry_risk_snapshot": {
+    "harm_severity": 4,
+    "high_stakes": 4,
+    "sensitive_data": 5,
+    "affected_scale": 4,
+    "human_review_need": 5,
+    "rationale": "Harm severity is 4 rather than 5 because no physical injury is involved, but a published clone of a real voice causes dignity, reputational and financial harm that the affected person cannot easily undo, and the U.S. Copyright Office concluded that existing remedies for unauthorized digital replicas are inadequate. High stakes is 4 because the product speaks as an identified real person to a public audience, and the FCC has already penalised exactly that impersonation pattern with a six million US dollar forfeiture. Sensitive data is 5 because enrolment recordings, voiceprint embeddings and facial likeness are biometric identifiers of a natural person, treated as sensitive personal data under the Vietnamese personal data regime. Affected scale is 4 because a single misused model can reach a large public audience and, once exported, the audio is distributed on platforms this product does not control. Human review need is 5 because consent verification, protected-voice matches and impersonation claims are judgement calls that no automated check can close on its own. These five ratings are a triage aid for prioritising the harm map and backlog. They are not a legal risk classification and were not used to derive the Viet Nam or EU status in this submission."
+  },
+  "legal_classification": {
+    "vietnam": {
+      "status": "uncertain-requires-legal-review",
+      "rationale": "Viet Nam has a dedicated AI law in force whose risk classification is set out in implementing instruments, including a high-risk list issued by decision, which this team has not reviewed clause by clause. The product also processes voiceprints and facial likeness, which we read as sensitive personal data under the personal data protection law, so a heightened regime plausibly applies. Because the classification outcome for a consumer voice-cloning studio cannot be settled from the framework text alone, the status stays uncertain until counsel confirms it, and the pilot excludes the Vietnamese market until that opinion exists.",
+      "source_ids": [
+        "SRC-04",
+        "SRC-05"
+      ]
+    },
+    "eu": {
+      "status": "limited-transparency",
+      "rationale": "The product generates synthetic audio impersonating a real identifiable person, which falls within the EU AI Act transparency obligations for AI-generated content and deepfakes: machine-readable marking of synthetic output and disclosure to the audience. We do not read the product as an Annex III high-risk use case, since it does not decide access to employment, education, credit, essential services or law enforcement outcomes. That reading is a product judgement from a summary policy page, not a counsel opinion, so the exact obligation set, applicable dates and any marking standard must be confirmed against the enacted text before an EU launch.",
+      "source_ids": [
+        "SRC-03"
+      ]
+    },
+    "other_markets": "United States: no single federal AI statute applies, but three exposures are live and documented. Right of publicity and digital replica protection is a state-level patchwork the U.S. Copyright Office itself called inadequate, and it recommended a new federal right. The FTC has pursued generative tools that supply the means to produce deceptive endorsement content, which is why testimonial and review generation is a non-goal here. The FCC has ruled that an AI voice counts as an artificial voice under existing telephone consumer protection rules and imposed a six million US dollar forfeiture for cloned-voice impersonation of a real person, which is why political and campaign content is excluded from the pilot. United States market entry needs counsel review per state before launch.",
+    "legal_review_required": true
+  },
+  "product_metrics": {
+    "success_kpi": "Share of pilot creators who localise more than half of their new uploads within eight weeks of enrolment, target at least sixty per cent, measured weekly per cohort alongside median time from finished edit to exported localised version, target under one hour.",
+    "risk_kri": "Count of substantiated impersonation or non-consent claims per one thousand active voice models per month, target zero substantiated claims, with median time to resolve a claim under 48 hours. Rising unsubstantiated claim volume is treated as a leading indicator and reviewed even when nothing is substantiated.",
+    "guardrail_metric": "One hundred per cent of active voice models backed by a verified consent artifact and one hundred per cent of exports carrying durable provenance marking. Both are hard limits, never traded off for activation, conversion or localisation volume, and a single breach pauses new enrolments rather than opening a remediation backlog item.",
+    "review_cadence": "Weekly Trust and Safety and product metric review during the pilot, monthly risk review with the risk acceptance owner, and a full re-review triggered by any substantiated impersonation claim, any guardrail breach, a new target market, a new vendor or model version, a scope change toward visual likeness or full automation, or new regulatory guidance in Viet Nam or the EU."
+  },
+  "release_decision": {
+    "accountable_product_owner": "Product Owner, Creator Voice Studio",
+    "risk_acceptance_owner": "Vice President of Product and Trust, holding authority to accept residual risk for a limited pilot",
+    "independent_reviewer": "Legal and Privacy Counsel, reporting outside the product line, supported by the Data Protection Officer",
+    "decision": "conditional-go",
+    "release_blockers": [
+      "GAP-01: verified consent artifact required before any voice model is trained or used for generation, with a retrievable enrolment artifact and generation log for every active model",
+      "GAP-02: durable machine-readable provenance marking plus default audience-facing AI disclosure on every export, with disclosure removal refused for cloned real-person voices",
+      "GAP-03: voice and likeness data classified as sensitive personal data with a declared lawful basis, retention limit and evidenced cascade deletion across vendor systems and backups",
+      "GAP-04: independent legal, privacy and security review sign-off on the Viet Nam and EU classification, the obligation list, and the biometric data path and vendor transfer, before the release decision is finalised"
+    ],
+    "release_conditions": [
+      "Pilot limited to an invited cohort of at most fifty creators, each enrolling only their own voice with a liveness-checked recording",
+      "Launch markets limited to those cleared in writing by the GAP-04 legal review; Viet Nam and the European Union stay excluded until that opinion exists",
+      "Political, campaign, election and news content, plus testimonial and product-review generation, blocked at the template and policy level for the whole pilot",
+      "Trust and Safety on-call staffed for the pilot duration with a 24-hour service level for impersonation and rights claims, and authority to freeze a model or pause enrolments without product sign-off",
+      "A documented kill switch that stops all generation and export within one hour, rehearsed once before launch",
+      "Guardrail breach on consent coverage or export provenance pauses new enrolments immediately and reopens the release decision",
+      "Escalation gate acknowledged: biometric data, sensitive personal data and third-party transfer to a cloning vendor each require the GAP-04 review, so the pilot does not start until all three sign-offs exist"
+    ],
+    "next_review_trigger": "Reviewed at the earlier of 2026-11-30 or any of the following: a substantiated impersonation or non-consent claim, a guardrail breach on consent coverage or export provenance, a successful protected-voice bypass found by red-teaming, a new target market or vendor, a scope change toward visual likeness or fully automated publishing, or new implementing guidance in Viet Nam or the European Union.",
+    "residual_risk_rationale": "Even with every blocker closed, two residual risks remain and are accepted knowingly for a capped pilot. First, export is a one-way door: once a localised file leaves the platform we cannot recall it, so provenance marking and disclosure reduce deception but do not undo it, leaving residual severity at 4 for the impersonation harm. Second, the protected-voice register and consent verification are known to be imperfect against a determined attacker, and GAP-05 red-teaming is deliberately scheduled for pilot gate 2 rather than gate 1, so the pilot is capped at fifty invited creators with political content excluded to keep the exposed population small while that evidence is gathered. The risk acceptance owner accepts this on the condition that a single substantiated claim or guardrail breach reopens the decision rather than triggering a remediation backlog item, and that no market without written legal clearance is included."
+  }
+}
