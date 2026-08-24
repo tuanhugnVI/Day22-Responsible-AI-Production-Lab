@@ -1,78 +1,147 @@
 {
   "schema_version": "1.0.0",
   "metadata": {
-    "student_name": "Vu The Luc",
+    "student_name": "Vũ Thế Lực",
     "student_id": "2A202602008",
-    "group_id": "<FILL>",
-    "submitted_at": "<FILL ISO-8601 DATE-TIME>"
+    "group_id": "Đường bốn mùa xuân",
+    "submitted_at": "2026-08-24T16:30:00+07:00"
   },
   "industry": "healthcare-assistant",
   "product_context": {
-    "product_name": "<FILL>",
-    "product_stage": "<CHOOSE>",
-    "problem_statement": "<FILL>",
-    "target_users": ["<FILL>"],
-    "value_hypothesis": "<FILL>",
-    "in_scope": ["<FILL>"],
-    "non_goals": ["<FILL>"],
-    "user_journey_moment": "<FILL>",
-    "target_launch_or_review_date": "<YYYY-MM-DD>",
-    "automation_level": "<CHOOSE>",
-    "fallback_experience": "<FILL: what happens when AI is unavailable or unsafe>",
-    "decision_reversibility": "<CHOOSE>"
+    "product_name": "VietCare Triage Assistant",
+    "product_stage": "pilot",
+    "problem_statement": "Patients calling an overloaded hospital contact center wait hours for guidance, so some arrive far too late and others fill the emergency department with problems a clinic could handle, while nurses re-collect the same symptom history on every call.",
+    "target_users": [
+      "patients",
+      "family caregivers",
+      "triage nurses",
+      "duty physicians"
+    ],
+    "value_hypothesis": "Structured symptom intake plus a suggested urgency level shortens the time to the correct care level, without moving any triage decision away from a licensed clinician.",
+    "in_scope": [
+      "structured symptom intake in Vietnamese",
+      "suggested urgency level for triage nurse review",
+      "care navigation information about which clinic or department handles the problem",
+      "handoff summary for the duty clinician"
+    ],
+    "non_goals": [
+      "diagnosis",
+      "prescription, dosage or medication change advice",
+      "autonomous stay-at-home or discharge instruction",
+      "emergency dispatch decision",
+      "insurance or coverage decision"
+    ],
+    "user_journey_moment": "After the patient describes symptoms in the hospital app or on the phone, and before the triage nurse assigns the urgency level.",
+    "target_launch_or_review_date": "2026-11-30",
+    "automation_level": "decision-support",
+    "fallback_experience": "When the assistant is unavailable, degraded or uncertain, the app hands the patient into the normal human triage queue with the raw intake text preserved, and the national emergency number stays visible on every screen of the flow.",
+    "decision_reversibility": "hard-to-reverse"
   },
   "system_profile": {
-    "purpose": "<FILL>",
-    "user_groups": ["<FILL>"],
-    "decision_impact": "<FILL>",
-    "data_types": ["<FILL>"],
-    "deployment_context": "<FILL>",
-    "target_markets": ["<FILL>"],
+    "purpose": "Collect symptom information from patients and propose an urgency level that a triage nurse confirms, overrides or escalates before anything reaches the patient.",
+    "user_groups": [
+      "patients",
+      "family caregivers",
+      "triage nurses",
+      "duty physicians",
+      "call center supervisors"
+    ],
+    "decision_impact": "The suggestion shapes how fast a patient is seen and which care level they are routed to. A licensed clinician confirms every urgency level, but a wrong low suggestion can still delay time-critical care.",
+    "data_types": [
+      "self-reported symptoms",
+      "age and sex",
+      "chronic condition and medication history",
+      "call and chat transcripts",
+      "prior visit records from the medical record system"
+    ],
+    "deployment_context": "A hospital group in Vietnam runs the assistant inside its patient app and its call center console, in Vietnamese, around the clock including night shifts where one nurse covers a much larger queue.",
+    "target_markets": [
+      "Vietnam",
+      "European Union"
+    ],
     "system_boundary": {
-      "model": "<FILL>",
-      "application": "<FILL>",
-      "people": ["<FILL>"],
-      "vendors": ["<FILL OR none>"],
-      "upstream_inputs": ["<FILL>"],
-      "downstream_decisions": ["<FILL>"]
+      "model": "vendor large language model for symptom intake and summarization, plus a rule-based red-flag checklist and an urgency scoring layer",
+      "application": "patient mobile app and call center triage console",
+      "people": [
+        "patients",
+        "family caregivers",
+        "triage nurses",
+        "duty physicians",
+        "clinical safety officer",
+        "on-call escalation manager"
+      ],
+      "vendors": [
+        "cloud large language model provider",
+        "electronic medical record vendor",
+        "telephony platform provider"
+      ],
+      "upstream_inputs": [
+        "patient symptom text",
+        "hospital triage protocol",
+        "electronic medical record extracts",
+        "clinic and bed capacity data"
+      ],
+      "downstream_decisions": [
+        "queue priority",
+        "care level routing",
+        "escalation to the duty physician",
+        "advice to attend the emergency department"
+      ]
     }
   },
   "industry_risk_snapshot": {
-    "harm_severity": 0,
-    "high_stakes": 0,
-    "sensitive_data": 0,
-    "affected_scale": 0,
-    "human_review_need": 0,
-    "rationale": "<Explain the 1-5 ratings with evidence. This score is not a legal classification.>"
+    "harm_severity": 5,
+    "high_stakes": 5,
+    "sensitive_data": 5,
+    "affected_scale": 4,
+    "human_review_need": 5,
+    "rationale": "A wrong or late urgency level can end in permanent injury or death, and that outcome cannot be undone by a refund or an appeal. The assistant handles health data, which Vietnamese law treats as sensitive personal data. It runs across the whole hospital group day and night, so one scoring error repeats at scale before anyone reads a weekly report, and the population health case shows that the patients pushed down the queue are usually the ones least likely to complain about it. Every urgency level therefore stays with a licensed nurse who can see the intake text and override without asking permission."
   },
   "legal_classification": {
     "vietnam": {
       "status": "uncertain-requires-legal-review",
-      "rationale": "<FILL>",
-      "source_ids": ["SRC-01"]
+      "rationale": "The triage function and the deployment facts have to be matched against the AI Law, its implementing decree and the current official high-risk list before launch, and the health data handling also falls under the personal data protection regime.",
+      "source_ids": [
+        "SRC-04",
+        "SRC-05",
+        "SRC-07"
+      ]
     },
     "eu": {
-      "status": "uncertain-requires-legal-review",
-      "rationale": "<FILL>",
-      "source_ids": ["SRC-02"]
+      "status": "high-risk",
+      "rationale": "Systems used to triage patients in emergency healthcare and to dispatch first response services fall within the Annex III high-risk area, and a symptom assistant may also be caught by medical device rules, so the provider and deployer roles need current legal review before any EU offering.",
+      "source_ids": [
+        "SRC-06"
+      ]
     },
-    "other_markets": "<FILL OR not assessed>",
+    "other_markets": "No market outside Vietnam and the European Union is in scope for this pilot; any expansion requires a separate legal review before it is scoped.",
     "legal_review_required": true
   },
   "product_metrics": {
-    "success_kpi": "<PRODUCT OUTCOME + TARGET>",
-    "risk_kri": "<RISK INDICATOR + TARGET>",
-    "guardrail_metric": "<HARD LIMIT + TARGET>",
-    "review_cadence": "<CADENCE + EVENT TRIGGERS>"
+    "success_kpi": "Median time from completed symptom intake to a nurse-confirmed urgency level is at most fifteen minutes during pilot hours, and at most thirty minutes on night shifts.",
+    "risk_kri": "Under-triage rate, meaning cases the assistant suggested as low urgency that a clinician later treated as an emergency, stays at or below one percent of scored cases per week.",
+    "guardrail_metric": "The number of urgency levels shown to a patient without a nurse confirmation record remains exactly zero in every reporting period, and the pilot pauses on the first breach.",
+    "review_cadence": "Weekly clinical safety review during the pilot, plus an immediate review after any under-triage incident, model or prompt change, vendor change, triage protocol update or new target market."
   },
   "release_decision": {
-    "accountable_product_owner": "<ROLE, NOT PERSON>",
-    "risk_acceptance_owner": "<ROLE WITH AUTHORITY>",
-    "independent_reviewer": "<ROLE, NOT PERSON>",
-    "decision": "research-only",
-    "release_blockers": ["GAP-01: <FILL OR use none when no blocker>"],
-    "release_conditions": ["<FILL>"],
-    "next_review_trigger": "<DATE, METRIC, INCIDENT OR SCOPE CHANGE>",
-    "residual_risk_rationale": "<FILL>"
+    "accountable_product_owner": "Digital Health Product Owner",
+    "risk_acceptance_owner": "Chief Medical Officer",
+    "independent_reviewer": "Hospital Clinical Safety Committee",
+    "decision": "conditional-go",
+    "release_blockers": [
+      "GAP-01: Vietnam classification memo and AI inventory record are not signed",
+      "GAP-02: consent record, retention period and vendor data processing agreement for health data are not settled",
+      "GAP-03: the EU high-risk applicability and medical device assessment have not started",
+      "GAP-04: under-triage measurement does not yet produce a weekly traced report"
+    ],
+    "release_conditions": [
+      "a nurse confirmation record exists before any urgency level reaches a patient",
+      "the rule-based red-flag checklist runs independently of the model and cannot be overridden downward by it",
+      "every case later treated as an emergency is reviewed within 24 hours",
+      "queue priority ordering stays switched off until subgroup evidence is published",
+      "a named on-call clinical escalation owner is rostered for every shift"
+    ],
+    "next_review_trigger": "Review on any under-triage incident, any model, prompt or vendor change, any triage protocol update, any new target market, or 2026-11-30, whichever comes first.",
+    "residual_risk_rationale": "The assistant only suggests and never decides. A licensed nurse confirms every urgency level with the intake text in front of them, the red-flag checklist bypasses the model, the emergency number stays visible throughout, and the pilot reverts to the human queue automatically once the under-triage threshold is breached. What remains is the risk that a nurse anchors on a wrong suggestion during a busy night shift, which is why override rate and suggestion volume are monitored as safety signals rather than as adoption metrics."
   }
 }
