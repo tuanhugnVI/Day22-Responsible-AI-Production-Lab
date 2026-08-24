@@ -12,17 +12,17 @@
     "product_stage": "pilot",
     "problem_statement": "Các biên tập viên và kiểm duyệt viên bị quá tải bởi khối lượng lớn tin giả (misinformation) trên mạng, dẫn đến chậm trễ trong việc xác minh và xử lý.",
     "target_users": ["Newsroom editors", "Social media moderators"],
-    "value_hypothesis": "Tự động hóa quá trình thu thập bằng chứng sẽ giảm 60% thời gian xử lý fact-check, giúp dán nhãn tin giả nhanh hơn.",
-    "in_scope": ["Fact-check văn bản chính trị", "Trích xuất bằng chứng từ nguồn uy tín"],
+    "value_hypothesis": "Hỗ trợ thu thập và đối chiếu bằng chứng có thể rút ngắn thời gian xử lý fact-check mà không thay thế phán đoán biên tập; hiệu quả phải được đo qua pilot có nhóm đối chứng.",
+    "in_scope": ["Fact-check văn bản chính trị trong hàng đợi nội bộ", "Trích xuất và liên kết bằng chứng từ nguồn uy tín", "Hiển thị mức độ chắc chắn và khoảng trống bằng chứng"],
     "non_goals": ["Tự động gỡ bài viết (auto-takedown)", "Xác minh deepfake video"],
     "user_journey_moment": "Khi một bài báo hoặc bài viết được đưa vào hàng đợi kiểm duyệt.",
     "target_launch_or_review_date": "2026-10-01",
     "automation_level": "decision-support",
-    "fallback_experience": "Chuyển về quy trình duyệt bài thủ công 100% bằng cách tự tra cứu Google và nguồn tin truyền thống.",
+    "fallback_experience": "Tắt đề xuất AI cho ticket hoặc nguồn có rủi ro cao; moderator chuyển sang quy trình fact-check thủ công với danh sách nguồn được phê duyệt, ghi nhận lý do và thời điểm bàn giao.",
     "decision_reversibility": "partially-reversible"
   },
   "system_profile": {
-    "purpose": "Hỗ trợ biên tập viên đưa ra quyết định duyệt/gỡ bài bằng cách cung cấp bối cảnh và bằng chứng khách quan.",
+    "purpose": "Hỗ trợ moderator và biên tập viên tìm, đối chiếu và ghi nhận bằng chứng; hệ thống không tự kết luận đúng/sai, không tự gỡ bài và không thay thế trách nhiệm biên tập.",
     "user_groups": ["Nhân viên kiểm duyệt", "Nhà báo"],
     "decision_impact": "Ảnh hưởng trực tiếp đến tự do ngôn luận của người dùng và khả năng tiếp cận sự thật của công chúng.",
     "data_types": ["Nội dung bài viết", "Lịch sử đăng bài", "Dữ liệu nguồn tin công cộng"],
@@ -34,7 +34,7 @@
       "people": ["Moderators", "General Public", "Politicians"],
       "vendors": ["Cloud Provider API"],
       "upstream_inputs": ["Social media feeds", "News agency wires"],
-      "downstream_decisions": ["Dán nhãn cảnh báo (Warning label)", "Từ chối phân phối nội dung"]
+      "downstream_decisions": ["Moderator quyết định có cần xác minh bổ sung", "Biên tập viên quyết định nhãn cảnh báo hoặc phân phối; mọi quyết định phải có audit trail và đường kháng nghị"]
     }
   },
   "industry_risk_snapshot": {
@@ -43,36 +43,36 @@
     "sensitive_data": 3,
     "affected_scale": 5,
     "human_review_need": 5,
-    "rationale": "Tin tức chính trị có quy mô tác động (scale) cực lớn (5). Sai sót gây tổn hại nghiêm trọng đến dân chủ (4). Định đoạt tính đúng sai bắt buộc phải có con người (5)."
+    "rationale": "Nội dung chính trị có thể tác động đến công chúng ở quy mô lớn (affected scale 5) và sai sót có thể gây mất uy tín, hiểu lầm hoặc hạn chế tiếp cận thông tin (harm severity 4). Vì output có thể ảnh hưởng nhãn và phân phối, cần reviewer có thẩm quyền và đường kháng nghị (human review need 5)."
   },
   "legal_classification": {
     "vietnam": {
       "status": "uncertain-requires-legal-review",
-      "rationale": "Chưa có quy định cụ thể về AI, nhưng cần tuân thủ Luật An ninh mạng về kiểm soát thông tin sai sự thật.",
+      "rationale": "Phạm vi áp dụng và nghĩa vụ cụ thể cho sản phẩm fact-check cần được luật sư tại Việt Nam xác nhận; Luật An ninh mạng là nguồn cần xem xét nhưng không đủ để tự kết luận phân loại AI.",
       "source_ids": ["SRC-01"]
     },
     "eu": {
       "status": "limited-transparency",
-      "rationale": "Cần dán nhãn minh bạch nội dung do AI can thiệp (AI Act Article 50) và tuân thủ Quy định Quảng cáo Chính trị (PAR).",
+      "rationale": "Cần legal review về nghĩa vụ minh bạch theo AI Act Article 50, tùy vào việc output có được xuất bản cho công chúng hay chỉ dùng nội bộ; không suy diễn rằng mọi output đều thuộc cùng một nghĩa vụ.",
       "source_ids": ["SRC-02"]
     },
     "other_markets": "not assessed",
     "legal_review_required": true
   },
   "product_metrics": {
-    "success_kpi": "Giảm 60% thời gian xử lý một ticket kiểm duyệt",
-    "risk_kri": "Tỷ lệ kháng cáo (appeal rate) cho các quyết định dán nhãn sai > 5%",
-    "guardrail_metric": "100% đề xuất gắn cờ phải có nguồn trích dẫn rõ ràng (citations) kèm theo",
-    "review_cadence": "Mỗi quý một lần hoặc khi có sự kiện bầu cử lớn"
+    "success_kpi": "Trong pilot, giảm median thời gian xử lý ticket so với baseline thủ công, đồng thời không làm giảm tỷ lệ reviewer mở và kiểm tra nguồn.",
+    "risk_kri": "Tỷ lệ đề xuất bị reviewer bác bỏ vì sai hoặc thiếu ngữ cảnh; cảnh báo khi vượt 10% trong một tuần hoặc tăng 5 điểm phần trăm so với baseline.",
+    "guardrail_metric": "100% đề xuất dùng cho quyết định phải có citation mở được, đoạn bằng chứng, timestamp và trạng thái nguồn; 0 trường hợp cho phép publish khi thiếu các trường này.",
+    "review_cadence": "Hàng tuần trong pilot; hàng tháng khi vận hành ổn định; review đặc biệt trước/sau sự kiện bầu cử hoặc khi có incident nghiêm trọng"
   },
   "release_decision": {
     "accountable_product_owner": "Head of Trust & Safety",
     "risk_acceptance_owner": "VP of Editorial",
     "independent_reviewer": "AI Ethics Board Member",
     "decision": "conditional-go",
-    "release_blockers": ["GAP-01"],
-    "release_conditions": ["Chỉ triển khai cho moderator nội bộ", "Mọi đề xuất phải hiển thị kèm nguồn trích dẫn gốc"],
-    "next_review_trigger": "Sau kỳ bầu cử tiếp theo hoặc khi KRI khiếu nại vượt quá 5%",
-    "residual_risk_rationale": "Hệ thống vẫn có khả năng sinh ra bằng chứng ảo (hallucination) do giới hạn của mô hình ngôn ngữ lớn, rủi ro này được chấp nhận miễn là có human-in-the-loop."
+    "release_blockers": ["GAP-01", "GAP-02", "GAP-03"],
+    "release_conditions": ["Chỉ triển khai cho moderator nội bộ trong pilot", "Không tự động gỡ, từ chối phân phối hoặc xuất bản nội dung", "Mọi đề xuất phải hiển thị citation mở được, đoạn bằng chứng và trạng thái nguồn", "Reviewer phải có quyền sửa/bác bỏ và ghi lý do; ticket high-risk phải được escalation"],
+    "next_review_trigger": "Review hàng tuần trong pilot; dừng rollout khi KRI vượt ngưỡng, có citation không mở được, hoặc xảy ra incident bôi nhọ có mức độ cao",
+    "residual_risk_rationale": "Hallucination, nguồn lỗi thời và framing sai vẫn có thể xảy ra. Conditional-go chỉ áp dụng cho decision-support nội bộ với human review có thẩm quyền, audit trail, appeal path và khả năng tắt/rollback; rủi ro không được chấp nhận cho auto-publish hoặc auto-takedown."
   }
 }
